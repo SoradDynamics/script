@@ -20,4 +20,5 @@ fi
 # Apply changes
 source "$BASHRC"
 
-echo -e "\e[1;32m✔ Color prompt enabled. Your shell should now be colorful.\e[0m"
+echo -e "\e[1;32m✔ Color prompt enabled. Your shell should now be colorful. if not worked try force_color_prompt=yes
+ in nano ~/.bashrc file \e[0m"
