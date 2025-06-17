@@ -1,24 +1,30 @@
 #!/bin/bash
 
+# Path to .bashrc
 BASHRC="$HOME/.bashrc"
 
-# Ensure backup
-cp "$BASHRC" "$BASHRC.bak"
-
-# Set force_color_prompt
-if grep -q "^# *force_color_prompt=yes" "$BASHRC"; then
-    sed -i 's/^# *force_color_prompt=yes/force_color_prompt=yes/' "$BASHRC"
-elif ! grep -q "^force_color_prompt=yes" "$BASHRC"; then
-    echo "force_color_prompt=yes" >> "$BASHRC"
+# Enable force color prompt
+if ! grep -q "force_color_prompt=yes" "$BASHRC"; then
+  echo "Enabling color prompt..."
+  echo "force_color_prompt=yes" >> "$BASHRC"
+else
+  echo "Color prompt already enabled."
 fi
 
-# Set colorful PS1
-if ! grep -q "PS1='\\\[\\e\[1;32m\\\]\\u@\\h:\\w\\\$\\\[\\e\[0m\\\] '" "$BASHRC"; then
-    echo "PS1='\\\[\\e[1;32m\\\]\\u@\\h:\\w\\\$\\\[\\e[0m\\\] '" >> "$BASHRC"
+# Add colorful PS1 if not already present
+if ! grep -q "PS1='\\\[\\e" "$BASHRC"; then
+  echo "Setting colorful and informative prompt..."
+  cat << 'EOF' >> "$BASHRC"
+
+# Custom colorful prompt
+PS1='\[\e[1;32m\]\u@\h:\[\e[1;34m\]\w\[\e[0m\]\$ '
+EOF
+else
+  echo "Custom prompt already set."
 fi
 
-# Apply changes
+# Apply the changes
+echo "Applying changes..."
 source "$BASHRC"
 
-echo -e "\e[1;32m✔ Color prompt enabled. Your shell should now be colorful. if not worked try force_color_prompt=yes
- in nano ~/.bashrc file \e[0m"
+echo "✅ Done! Open a new terminal or run 'source ~/.bashrc' to see the colorful prompt."
